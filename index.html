@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bé Vui Học Chữ Và Số</title>
+    <title>Siêu App Cho Bé Học Chữ, Số VÀ Loài Vật</title>
     <style>
         :root {
             --primary: #FF6B6B;
@@ -26,13 +26,13 @@
             background-color: var(--bg);
             color: var(--text);
             overflow-x: hidden;
-            padding-bottom: 30px;
+            padding-bottom: 40px;
         }
 
         header {
             background-color: white;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            padding: 15px;
+            padding: 12px;
             text-align: center;
             position: sticky;
             top: 0;
@@ -41,8 +41,8 @@
 
         h1 {
             color: var(--primary);
-            font-size: 1.8rem;
-            margin-bottom: 10px;
+            font-size: 1.6rem;
+            margin-bottom: 8px;
             text-shadow: 1px 1px 0px #fff, 2px 2px 0px rgba(0,0,0,0.1);
         }
 
@@ -80,8 +80,40 @@
 
         .container {
             max-width: 800px;
-            margin: 20px auto;
-            padding: 0 15px;
+            margin: 15px auto;
+            padding: 0 12px;
+        }
+
+        /* THANH CHỌN CHỦ ĐỀ CUỘN NGANG ĐẸP MẮT */
+        .topic-bar {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 5px 5px 15px 5px;
+            margin-bottom: 15px;
+            scrollbar-width: none; /* Ẩn scrollbar trên firefox */
+        }
+        .topic-bar::-webkit-scrollbar {
+            display: none; /* Ẩn scrollbar trên safari/chrome */
+        }
+
+        .btn-topic {
+            background: white;
+            color: #4a4a4a;
+            border: 3px solid #E4E6EB;
+            padding: 10px 18px;
+            font-size: 1.1rem;
+            border-radius: 20px;
+            white-space: nowrap;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #E4E6EB;
+        }
+        .btn-topic.active {
+            background: var(--accent);
+            border-color: #FFA801;
+            box-shadow: 0 4px 0 #FFA801;
+            transform: scale(1.05);
         }
 
         .view-section {
@@ -92,7 +124,7 @@
             display: block;
         }
 
-        /* CHẾ ĐỘ HỌC */
+        /* LƯỚI HIỂN THỊ HỌC TẬP */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(110px, 110px));
@@ -115,15 +147,16 @@
             transform: scale(0.95);
         }
 
-        .card-letter {
+        .card-main {
             font-size: 3rem;
             font-weight: 900;
             display: block;
             margin-bottom: 5px;
+            line-height: 1.2;
         }
 
-        .card-emoji {
-            font-size: 2rem;
+        .card-sub {
+            font-size: 1.8rem;
             display: block;
         }
 
@@ -134,10 +167,8 @@
             padding: 25px 15px;
             text-align: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            margin-top: 10px;
         }
 
-        /* Khung hiển thị Gợi ý Câu hỏi to rõ cho bé 3 tuổi */
         .visual-question-card {
             background: #FFFDF0;
             border: 4px dashed #FFE66D;
@@ -157,26 +188,26 @@
             font-size: 1.2rem;
             font-weight: bold;
             color: #555;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .vq-main-display {
-            font-size: 5rem;
+            font-size: 4.5rem;
             font-weight: 900;
             color: #FF6B6B;
-            line-height: 1;
+            line-height: 1.2;
         }
 
         .vq-sub-display {
             font-size: 3.5rem;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .vq-text-read {
             font-size: 1.4rem;
             font-weight: bold;
             color: #2F3E46;
-            margin-top: 5px;
+            margin-top: 8px;
         }
 
         .options-grid {
@@ -206,12 +237,13 @@
             box-shadow: none;
         }
 
-        .opt-letter {
-            font-size: 3rem;
+        .opt-main {
+            font-size: 2.8rem;
             font-weight: 900;
+            line-height: 1.2;
         }
 
-        .opt-emoji {
+        .opt-sub {
             font-size: 2rem;
         }
 
@@ -219,8 +251,6 @@
             position: fixed;
             width: 15px;
             height: 15px;
-            background-color: #f00;
-            position: absolute;
             z-index: 1000;
             border-radius: 50%;
             animation: fly 1s ease-out forwards;
@@ -246,122 +276,191 @@
 <body>
 
     <header>
-        <h1>🎈 BÉ VUI HỌC CHỮ VÀ SỐ 🎈</h1>
+        <h1>🌟 BÉ THÔNG MINH BÁCH KHOA 🌟</h1>
         <div class="nav-buttons">
-            <button class="btn btn-mode active" id="btn-learn" onclick="switchView('learn')">📖 XEM BẢNG CHỮ</button>
-            <button class="btn btn-mode" id="btn-game" onclick="switchView('game')">🎮 TRÒ CHƠI ĐỐ VUI</button>
+            <button class="btn btn-mode active" id="btn-learn" onclick="switchView('learn')">📖 XEM & HỌC</button>
+            <button class="btn btn-mode" id="btn-game" onclick="switchView('game')">🎮 CHƠI ĐỐ VUI</button>
         </div>
     </header>
 
     <div class="container">
-        <!-- PHẦN 1: BẢNG HỌC TẬP -->
+        <!-- THANH ĐIỀU HƯỚNG CHỦ ĐỀ CUỘN NGANG -->
+        <div class="topic-bar">
+            <button class="btn-topic active" id="tp-abc" onclick="selectTopic('abc')">🔤 Chữ Cái</button>
+            <button class="btn-topic" id="tp-num" onclick="selectTopic('num')">🔢 Chữ Số</button>
+            <button class="btn-topic" id="tp-color" onclick="selectTopic('color')">🎨 Màu Sắc</button>
+            <button class="btn-topic" id="tp-shape" onclick="selectTopic('shape')">🔺 Hình Khối</button>
+            <button class="btn-topic" id="tp-animal" onclick="selectTopic('animal')">🦁 Động Vật</button>
+            <button class="btn-topic" id="tp-fruit" onclick="selectTopic('fruit')">🍎 Hoa Quả</button>
+        </div>
+
+        <!-- PHẦN 1: BẢNG HỌC TẬP TỪNG CHỦ ĐỀ -->
         <section id="section-learn" class="view-section active">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <button class="btn" style="background:#ff9f43; color:white;" onclick="loadData('abc')">🔤 Bảng Chữ Cái</button>
-                <button class="btn" style="background:#10ac84; color:white;" onclick="loadData('123')">🔢 Bảng Chữ Số</button>
-            </div>
             <div class="grid-container" id="learn-grid"></div>
         </section>
 
-        <!-- PHẦN 2: TRÒ CHƠI ĐỐ VUI (CẢ CHỮ LẪN SỐ XEN KẼ) -->
+        <!-- PHẦN 2: TRÒ CHƠI ĐỐ VUI THEO CHỦ ĐỀ ĐANG CHỌN -->
         <section id="section-game" class="view-section">
             <div class="game-box">
-                <div style="font-size: 1.3rem; font-weight: bold; color: #555;">Bé ơi! Tìm đáp án giống khung vàng nhé:</div>
+                <div style="font-size: 1.2rem; font-weight: bold; color: #555;">Bé ơi! Tìm hình giống khung vàng này nhé:</div>
                 
-                <!-- Khung gợi ý TRỰC QUAN: Đầy đủ Chữ, Hình, Chữ đọc và có Loa bấm phát âm -->
                 <div class="visual-question-card" onclick="playTargetSound()">
                     <div class="vq-hint-text">Cần tìm:</div>
-                    <div class="vq-main-display" id="vq-letter">A</div>
-                    <div class="vq-sub-display" id="vq-emoji">🐟</div>
-                    <div class="vq-text-read" id="vq-text">Chữ A (Con cá)</div>
-                    <div style="font-size: 0.9rem; color: #888; margin-top: 10px;">🔊 Bấm nghe lại giọng đọc</div>
+                    <div class="vq-main-display" id="vq-main">A</div>
+                    <div class="vq-sub-display" id="vq-sub">🐟</div>
+                    <div class="vq-text-read" id="vq-text">Chữ A - Con cá</div>
+                    <div style="font-size: 0.9rem; color: #888; margin-top: 8px;">🔊 Bấm để nghe lại giọng đọc</div>
                 </div>
                 
-                <!-- 4 Nút lựa chọn đáp án -->
                 <div class="options-grid" id="options-container"></div>
             </div>
         </section>
     </div>
 
     <script>
-        // Dữ liệu Chữ cái tiếng Việt + Hình minh họa trực quan
-        const abcData = [
-            { l: 'A', e: '🐟', s: 'Chữ A', full: 'Chữ A - Con cá' },
-            { l: 'Ă', e: '🦛', s: 'Chữ Ă', full: 'Chữ Ă - Hà mã' },
-            { l: 'Â', e: '🐻', s: 'Chữ Â', full: 'Chữ Â - Con gấu' },
-            { l: 'B', e: '🐮', s: 'Chữ B', full: 'Chữ B - Con bò' },
-            { l: 'C', e: '🐶', s: 'Chữ C', full: 'Chữ C - Con chó' },
-            { l: 'D', e: '🐐', s: 'Chữ D', full: 'Chữ D - Con dê' },
-            { l: 'Đ', e: '🦚', s: 'Chữ Đ', full: 'Chữ Đ - Chim công' },
-            { l: 'E', e: '🐸', s: 'Chữ E', full: 'Chữ E - Con ếch' },
-            { l: 'Ê', e: '🦤', s: 'Chữ Ê', full: 'Chữ Ê - Con chim' },
-            { l: 'G', e: '🐓', s: 'Chữ G', full: 'Chữ G - Con gà' },
-            { l: 'H', e: '🐯', s: 'Chữ H', full: 'Chữ H - Con hổ' },
-            { l: 'I', e: '🐜', s: 'Chữ I', full: 'Chữ I - Con kiến' },
-            { l: 'K', e: '🦁', s: 'Chữ K', full: 'Chữ K - Sư tử' },
-            { l: 'L', e: '🐷', s: 'Chữ L', full: 'Chữ L - Con lợn' },
-            { l: 'M', e: '🐈', s: 'Chữ M', full: 'Chữ M - Con mèo' },
-            { l: 'N', e: '🦔', s: 'Chữ N', full: 'Chữ N - Con nhím' },
-            { l: 'O', e: '🥚', s: 'Chữ O', full: 'Chữ O - Quả trứng' },
-            { l: 'Ô', e: '☂️', s: 'Chữ Ô', full: 'Chữ Ô - Cái ô' },
-            { l: 'Ơ', e: '🛟', s: 'Chữ Ơ', full: 'Chữ Ơ - Cái phao' },
-            { l: 'P', e: '🐘', s: 'Chữ P', full: 'Chữ P - Con voi' },
-            { l: 'Q', e: '🍌', s: 'Chữ Q', full: 'Chữ Q - Quả chuối' },
-            { l: 'R', e: '🐢', s: 'Chữ R', full: 'Chữ R - Con rùa' },
-            { l: 'S', e: '🦁', s: 'Chữ S', full: 'Chữ S - Sư tử' },
-            { l: 'T', e: '🐇', s: 'Chữ T', full: 'Chữ T - Con thỏ' },
-            { l: 'U', e: '🐌', s: 'Chữ U', full: 'Chữ U - Ốc sên' },
-            { l: 'Ư', e: '🦌', s: 'Chữ Ư', full: 'Chữ Ư - Con hươu' },
-            { l: 'V', e: '🦆', s: 'Chữ V', full: 'Chữ V - Con vịt' },
-            { l: 'X', e: '🚗', s: 'Chữ X', full: 'Chữ X - Xe ô tô' },
-            { l: 'Y', e: '🩺', s: 'Chữ Y', full: 'Chữ Y - Y tế' }
-        ];
+        // KHO DỮ LIỆU ĐA DẠNG CHO BÉ
+        const appDatabase = {
+            abc: [
+                { m: 'A', s: '🐟', t: 'Chữ A - Con cá' },
+                { m: 'Ă', s: '🦛', t: 'Chữ Ă - Hà mã' },
+                { m: 'Â', s: '🐻', t: 'Chữ Â - Con gấu' },
+                { m: 'B', s: '🐮', t: 'Chữ B - Con bò' },
+                { m: 'C', s: '🐶', t: 'Chữ C - Con chó' },
+                { m: 'D', s: '🐐', t: 'Chữ D - Con dê' },
+                { m: 'Đ', s: '🦚', t: 'Chữ Đ - Chim công' },
+                { m: 'E', s: '🐸', t: 'Chữ E - Con ếch' },
+                { m: 'Ê', s: '🦤', t: 'Chữ Ê - Con chim' },
+                { m: 'G', s: '🐓', s: '🐓', t: 'Chữ G - Con gà' },
+                { m: 'H', s: '🐯', t: 'Chữ H - Con hổ' },
+                { m: 'I', s: '🐜', t: 'Chữ I - Con kiến' },
+                { m: 'K', s: '🦁', t: 'Chữ K - Sư tử' },
+                { m: 'L', s: '🐷', t: 'Chữ L - Con lợn' },
+                { m: 'M', s: '🐈', t: 'Chữ M - Con mèo' },
+                { m: 'N', s: '🦔', t: 'Chữ N - Con nhím' },
+                { m: 'O', s: '🥚', t: 'Chữ O - Quả trứng' },
+                { m: 'Ô', s: '☂️', t: 'Chữ Ô - Cái ô' },
+                { m: 'Ơ', s: '🛟', t: 'Chữ Ơ - Cái phao' },
+                { m: 'P', s: '🐘', t: 'Chữ P - Con voi' },
+                { m: 'Q', s: '🍌', t: 'Chữ Q - Quả chuối' },
+                { m: 'R', s: '🐢', t: 'Chữ R - Con rùa' },
+                { m: 'S', s: '🦁', t: 'Chữ S - Sư tử' },
+                { m: 'T', s: '🐇', t: 'Chữ T - Con thỏ' },
+                { m: 'U', s: '🐌', t: 'Chữ U - Ốc sên' },
+                { m: 'Ư', s: 'Deer', s: ' deer ', s: '🦌', t: 'Chữ Ư - Con hươu' },
+                { m: 'V', s: '🦆', t: 'Chữ V - Con vịt' },
+                { m: 'X', s: '🚗', t: 'Chữ X - Xe ô tô' },
+                { m: 'Y', s: '🩺', t: 'Chữ Y - Y tế' }
+            ],
+            num: [
+                { m: '0', s: '🥚', t: 'Số Không' },
+                { m: '1', s: '☝️', t: 'Số Một' },
+                { m: '2', s: '✌️', t: 'Số Hai' },
+                { m: '3', s: '🤟', t: 'Số Ba' },
+                { m: '4', s: '🍀', t: 'Số Bốn' },
+                { m: '5', s: '🖐️', t: 'Số Năm' },
+                { m: '6', s: '🍎', t: 'Số Sáu' },
+                { m: '7', s: '⭐', t: 'Số Bảy' },
+                { m: '8', s: '🎈', t: 'Số Tám' },
+                { m: '9', s: '🐱', t: 'Số Chín' },
+                { m: '10', s: '🔟', t: 'Số Mười' }
+            ],
+            color: [
+                { m: '🔴', s: 'Đỏ', t: 'Màu Đỏ' },
+                { m: '🟡', s: 'Vàng', t: 'Màu Vàng' },
+                { m: '🔵', s: 'Xanh', t: 'Màu Xanh Dương' },
+                { m: '🟢', s: 'Lá', t: 'Màu Xanh Lá Cây' },
+                { m: '🟠', s: 'Cam', t: 'Màu Cam' },
+                { m: '🟣', s: 'Tím', t: 'Màu Tím' },
+                { m: '⚫', s: 'Đen', t: 'Màu Đen' },
+                { m: '⚪', s: 'Trắng', t: 'Màu Trắng' },
+                { m: '🟤', s: 'Nâu', t: 'Màu Nâu' },
+                { m: '💗', s: 'Hồng', t: 'Màu Hồng' }
+            ],
+            shape: [
+                { m: '🔴', s: 'Tròn', t: 'Hình Tròn' },
+                { m: '🟧', s: 'Vuông', t: 'Hình Vuông' },
+                { m: '🔺', s: 'Tam Giác', t: 'Hình Tam Giác' },
+                { m: '⭐', s: 'Sao', t: 'Hình Ngôi Sao' },
+                { m: '❤️', s: 'Tim', t: 'Hình Trái Tim' },
+                { m: '🔷', s: 'Thoi', t: 'Hình Thoi' },
+                { m: '🌙', s: 'Trăng', t: 'Hình Trăng Khuyết' }
+            ],
+            animal: [
+                { m: '🦁', s: 'Sư Tử', t: 'Con Sư Tử' },
+                { m: '🐯', s: 'Hổ', t: 'Con Hổ' },
+                { m: '🐘', s: 'Voi', t: 'Con Voi' },
+                { m: '🐒', s: 'Khỉ', t: 'Con Khỉ' },
+                { m: '🦒', s: 'Hươu Cao Cổ', t: 'Con Hươu Cao Cổ' },
+                { m: '🐕', s: 'Chó', t: 'Con Chó' },
+                { m: '🐈', s: 'Mèo', t: 'Con Mèo' },
+                { m: '🐖', s: 'Lợn', t: 'Con Lợn' },
+                { m: '🐇', s: 'Thỏ', t: 'Con Thỏ' },
+                { m: '🦆', s: 'Vịt', t: 'Con Vịt' },
+                { m: '🐓', s: 'Gà', t: 'Con Gà' },
+                { m: '🐬', s: 'Cá Heo', t: 'Con Cá Heo' }
+            ],
+            fruit: [
+                { m: '🍎', s: 'Táo', t: 'Quả Táo' },
+                { m: '🍌', s: 'Chuối', t: 'Quả Chuối' },
+                { m: '🍉', s: 'Dưa Hấu', t: 'Quả Dưa Hấu' },
+                { m: '🍇', s: 'Nho', t: 'Quả Nho' },
+                { m: '🍊', s: 'Cam', t: 'Quả Cam' },
+                { m: '🍓', s: 'Dâu Tây', t: 'Quả Dâu Tây' },
+                { m: '🥭', s: 'Xoài', t: 'Quả Xoài' },
+                { m: '🍍', s: 'Dứa', t: 'Quả Dứa' },
+                { m: '🥑', s: 'Bơ', t: 'Quả Bơ' },
+                { m: '🌽', s: 'Ngô', t: 'Bắp Ngô' }
+            ]
+        };
 
-        // Dữ liệu Chữ số + Hình minh họa trực quan
-        const numData = [
-            { l: '0', e: '🥚', s: 'Số Không', full: 'Số Không' },
-            { l: '1', e: '☝️', s: 'Số Một', full: 'Số Một' },
-            { l: '2', e: '✌️', s: 'Số Hai', full: 'Số Hai' },
-            { l: '3', e: '🤟', s: 'Số Ba', full: 'Số Ba' },
-            { l: '4', e: '🍀', s: 'Số Bốn', full: 'Số Bốn' },
-            { l: '5', e: '🖐️', s: 'Số Năm', full: 'Số Năm' },
-            { l: '6', e: '🍎', s: 'Số Sáu', full: 'Số Sáu' },
-            { l: '7', e: '⭐', s: 'Số Bảy', full: 'Số Bảy' },
-            { l: '8', e: '🎈', s: 'Số Tám', full: 'Số Tám' },
-            { l: '9', e: '🐱', s: 'Số Chín', full: 'Số Chín' },
-            { l: '10', e: '🔟', s: 'Số Mười', full: 'Số Mười' }
-        ];
-
-        let currentDataType = 'abc';
+        let currentTopic = 'abc';
+        let currentMode = 'learn';
         let currentTarget = null;
 
+        // Giọng đọc tiếng Việt chuẩn, đọc chậm rãi cho bé 3 tuổi
         function speak(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'vi-VN';
-                utterance.rate = 0.8; // Đọc chậm cho bé 3 tuổi nghe rõ
+                utterance.rate = 0.75; 
                 window.speechSynthesis.speak(utterance);
             }
         }
 
-        function switchView(view) {
+        // Thay đổi chế độ chính (Xem Học / Chơi game)
+        function switchView(mode) {
+            currentMode = mode;
             document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.btn-mode').forEach(b => b.classList.remove('active'));
             
-            if(view === 'learn') {
+            if(mode === 'learn') {
                 document.getElementById('section-learn').classList.add('active');
                 document.getElementById('btn-learn').classList.add('active');
+                renderLearnMode();
             } else {
                 document.getElementById('section-game').classList.add('active');
                 document.getElementById('btn-game').classList.add('active');
-                initGame();
+                initGameMode();
             }
         }
 
-        function loadData(type) {
-            currentDataType = type;
-            const data = type === 'abc' ? abcData : numData;
+        // Chọn chủ đề học tập
+        function selectTopic(topicKey) {
+            currentTopic = topicKey;
+            document.querySelectorAll('.btn-topic').forEach(b => b.classList.remove('active'));
+            document.getElementById(`tp-${topicKey}`).classList.add('active');
+            
+            if(currentMode === 'learn') {
+                renderLearnMode();
+            } else {
+                initGameMode();
+            }
+        }
+
+        // Vẽ danh sách thẻ học của chủ đề được chọn
+        function renderLearnMode() {
+            const data = appDatabase[currentTopic];
             const grid = document.getElementById('learn-grid');
             grid.innerHTML = '';
 
@@ -370,41 +469,43 @@
                 const card = document.createElement('div');
                 card.className = `card ${colorClass}`;
                 card.onclick = () => {
-                    speak(item.full);
+                    speak(item.t);
                     createCelebration(card);
                 };
                 card.innerHTML = `
-                    <span class="card-letter">${item.l}</span>
-                    <span class="card-emoji">${item.e}</span>
+                    <span class="card-main">${item.m}</span>
+                    <span class="card-sub">${item.s}</span>
                 `;
                 grid.appendChild(card);
             });
         }
 
-        // TRÒ CHƠI: Tự động trộn ngẫu nhiên cả Chữ và Số
-        function initGame() {
-            // Ngẫu nhiên chọn đố Chữ cái hoặc đố Chữ Số theo tỉ lệ 50/50
-            const gamePool = Math.random() > 0.5 ? abcData : numData;
+        // TRÒ CHƠI: Tạo câu hỏi theo đúng chủ đề đang chọn
+        function initGameMode() {
+            const data = appDatabase[currentTopic];
             
-            const correctIndex = Math.floor(Math.random() * gamePool.length);
-            currentTarget = gamePool[correctIndex];
+            // Chọn ngẫu nhiên một mục làm đáp án đúng
+            const correctIndex = Math.floor(Math.random() * data.length);
+            currentTarget = data[correctIndex];
 
-            // Đổ dữ liệu gợi ý TRỰC QUAN lên khung vàng (Chữ, Hình, Mô tả)
-            document.getElementById('vq-letter').innerText = currentTarget.l;
-            document.getElementById('vq-emoji').innerText = currentTarget.e;
-            document.getElementById('vq-text').innerText = currentTarget.full;
+            // Hiển thị gợi ý siêu rõ ràng lên khung vàng
+            document.getElementById('vq-main').innerText = currentTarget.m;
+            document.getElementById('vq-sub').innerText = currentTarget.s;
+            document.getElementById('vq-text').innerText = currentTarget.t;
 
-            // Tạo tập hợp 4 lựa chọn cho bé bấm
+            // Xử lý tạo 4 lựa chọn (Nếu bộ dữ liệu ít hơn 4 mục thì lấy tối đa có thể)
+            let maxOptions = Math.min(4, data.length);
             let options = [currentTarget];
-            while(options.length < 4) {
-                const randomItem = gamePool[Math.floor(Math.random() * gamePool.length)];
+            
+            while(options.length < maxOptions) {
+                const randomItem = data[Math.floor(Math.random() * data.length)];
                 if(!options.includes(randomItem)) {
                     options.push(randomItem);
                 }
             }
             options.sort(() => Math.random() - 0.5);
 
-            // Vẽ các nút bấm lựa chọn đáp án
+            // Đổ các nút đáp án ra màn hình
             const container = document.getElementById('options-container');
             container.innerHTML = '';
             
@@ -415,27 +516,27 @@
                 btn.style.color = colors[index % 4];
                 btn.style.borderColor = colors[index % 4];
                 
-                // Nút bấm có cả Chữ lẫn Hình minh họa tương ứng
                 btn.innerHTML = `
-                    <span class="opt-letter">${item.l}</span>
-                    <span class="opt-emoji">${item.e}</span>
+                    <span class="opt-main">${item.m}</span>
+                    <span class="opt-sub">${item.s}</span>
                 `;
-                btn.onclick = (e) => checkAnswer(item.l, btn);
+                btn.onclick = () => checkAnswer(item.m, btn);
                 container.appendChild(btn);
             });
 
-            // Tự động phát âm thanh hướng dẫn câu hỏi
             setTimeout(() => { playTargetSound(); }, 400);
         }
 
+        // Phát âm câu hỏi
         function playTargetSound() {
             if(currentTarget) {
-                speak(`Bé hãy tìm: ${currentTarget.full}`);
+                speak(`Bé hãy tìm: ${currentTarget.t}`);
             }
         }
 
-        function checkAnswer(selectedLetter, element) {
-            if(selectedLetter === currentTarget.l) {
+        // Kiểm tra đúng hay sai
+        function checkAnswer(selectedMain, element) {
+            if(selectedMain === currentTarget.m) {
                 speak("Đúng rồi! Bé giỏi quá!");
                 createCelebration(element);
                 
@@ -443,14 +544,15 @@
                 element.style.color = 'white';
                 element.style.boxShadow = 'none';
                 
-                // Chuyển sang câu mới sau 2.5 giây
-                setTimeout(() => { initGame(); }, 2500);
+                // Qua câu đố tiếp theo sau 2.5 giây
+                setTimeout(() => { initGameMode(); }, 2500);
             } else {
                 speak("Chưa đúng rồi, bé chọn lại xem nào");
                 element.style.backgroundColor = '#e74c3c';
                 element.style.color = 'white';
                 element.style.boxShadow = 'none';
                 
+                // Trả nút về trạng thái cũ sau 1 giây cho bé thử lại
                 setTimeout(() => {
                     element.style.backgroundColor = '#F0F2F5';
                     element.style.color = element.style.borderColor;
@@ -459,13 +561,14 @@
             }
         }
 
+        // Hiệu ứng pháo hoa rực rỡ khi bé bấm trúng
         function createCelebration(element) {
             const rect = element.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2 + window.scrollY;
             const colors = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#10AC84', '#9b59b6', '#3498db'];
 
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 22; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
                 confetti.style.left = centerX + 'px';
@@ -473,7 +576,7 @@
                 confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 
                 const angle = Math.random() * Math.PI * 2;
-                const distance = 50 + Math.random() * 100;
+                const distance = 50 + Math.random() * 110;
                 const x = Math.cos(angle) * distance;
                 const y = Math.sin(angle) * distance;
 
@@ -485,8 +588,9 @@
             }
         }
 
+        // Mặc định tải trang chạy chủ đề Chữ cái đầu tiên
         window.onload = () => {
-            loadData('abc');
+            renderLearnMode();
         };
     </script>
 </body>

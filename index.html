@@ -91,10 +91,10 @@
             overflow-x: auto;
             padding: 5px 5px 15px 5px;
             margin-bottom: 15px;
-            scrollbar-width: none; /* Ẩn scrollbar trên firefox */
+            scrollbar-width: none; 
         }
         .topic-bar::-webkit-scrollbar {
-            display: none; /* Ẩn scrollbar trên safari/chrome */
+            display: none; 
         }
 
         .btn-topic {
@@ -247,6 +247,93 @@
             font-size: 2rem;
         }
 
+        /* POPUP PHÓNG TO HÌNH ẢNH CHO BÉ HỌC */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            backdrop-filter: blur(4px);
+        }
+
+        .popup-card {
+            background: white;
+            width: 85%;
+            max-width: 340px;
+            border-radius: 30px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            position: relative;
+            border: 5px solid var(--accent);
+            animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 45px;
+            height: 45px;
+            background: #FF6B6B;
+            color: white;
+            border: 3px solid white;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .popup-emoji {
+            font-size: 6rem;
+            display: block;
+            margin-bottom: 10px;
+            animation: bounce 1s infinite alternate;
+        }
+
+        .popup-word-main {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #FF6B6B;
+            line-height: 1.1;
+        }
+
+        .popup-word-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2F3E46;
+            margin: 10px 0 20px 0;
+        }
+
+        .btn-speak-again {
+            background: #4ECDC4;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 0 #3b9c95;
+        }
+        .btn-speak-again:active {
+            transform: translateY(4px);
+            box-shadow: none;
+        }
+
         .confetti {
             position: fixed;
             width: 15px;
@@ -263,6 +350,14 @@
         @keyframes fly {
             0% { transform: translate(0, 0) scale(1); opacity: 1; }
             100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
+        }
+        @keyframes zoomIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
         }
 
         .c1 { color: #FF6B6B; border-color: #FFD2D2; }
@@ -317,6 +412,17 @@
         </section>
     </div>
 
+    <!-- KHUNG POPUP PHÓNG TO HÌNH ẢNH TRỰC QUAN -->
+    <div class="popup-overlay" id="popup-overlay" onclick="closePopup()">
+        <div class="popup-card" onclick="event.stopPropagation()">
+            <button class="popup-close" onclick="closePopup()">×</button>
+            <span class="popup-emoji" id="pop-emoji">🦁</span>
+            <div class="popup-word-main" id="pop-main">🦁</div>
+            <div class="popup-word-title" id="pop-title">Con Sư Tử</div>
+            <button class="btn-speak-again" onclick="playPopupSound()">🔊 Nghe Đọc</button>
+        </div>
+    </div>
+
     <script>
         // KHO DỮ LIỆU ĐA DẠNG CHO BÉ
         const appDatabase = {
@@ -330,7 +436,7 @@
                 { m: 'Đ', s: '🦚', t: 'Chữ Đ - Chim công' },
                 { m: 'E', s: '🐸', t: 'Chữ E - Con ếch' },
                 { m: 'Ê', s: '🦤', t: 'Chữ Ê - Con chim' },
-                { m: 'G', s: '🐓', s: '🐓', t: 'Chữ G - Con gà' },
+                { m: 'G', s: '🐓', t: 'Chữ G - Con gà' },
                 { m: 'H', s: '🐯', t: 'Chữ H - Con hổ' },
                 { m: 'I', s: '🐜', t: 'Chữ I - Con kiến' },
                 { m: 'K', s: '🦁', t: 'Chữ K - Sư tử' },
@@ -346,7 +452,7 @@
                 { m: 'S', s: '🦁', t: 'Chữ S - Sư tử' },
                 { m: 'T', s: '🐇', t: 'Chữ T - Con thỏ' },
                 { m: 'U', s: '🐌', t: 'Chữ U - Ốc sên' },
-                { m: 'Ư', s: 'Deer', s: ' deer ', s: '🦌', t: 'Chữ Ư - Con hươu' },
+                { m: 'Ư', s: '🦌', t: 'Chữ Ư - Con hươu' },
                 { m: 'V', s: '🦆', t: 'Chữ V - Con vịt' },
                 { m: 'X', s: '🚗', t: 'Chữ X - Xe ô tô' },
                 { m: 'Y', s: '🩺', t: 'Chữ Y - Y tế' }
@@ -416,6 +522,7 @@
         let currentTopic = 'abc';
         let currentMode = 'learn';
         let currentTarget = null;
+        let activePopupText = "";
 
         // Giọng đọc tiếng Việt chuẩn, đọc chậm rãi cho bé 3 tuổi
         function speak(text) {
@@ -469,7 +576,7 @@
                 const card = document.createElement('div');
                 card.className = `card ${colorClass}`;
                 card.onclick = () => {
-                    speak(item.t);
+                    openPopup(item);
                     createCelebration(card);
                 };
                 card.innerHTML = `
@@ -478,6 +585,41 @@
                 `;
                 grid.appendChild(card);
             });
+        }
+
+        // XỬ LÝ POPUP PHÓNG TO HÌNH ẢNH
+        function openPopup(item) {
+            activePopupText = item.t;
+            
+            // Nếu là chủ đề chữ cái/chữ số thì hiển thị emoji ở trên, chữ to ở dưới. 
+            // Nếu là loài vật/hoa quả (khi m và s trùng tính chất hình), ta tối ưu hiển thị đẹp mắt.
+            if(currentTopic === 'animal' || currentTopic === 'fruit' || currentTopic === 'color' || currentTopic === 'shape') {
+                document.getElementById('pop-emoji').style.display = 'block';
+                document.getElementById('pop-emoji').innerText = item.m;
+                document.getElementById('pop-main').innerText = "";
+                document.getElementById('pop-title').innerText = item.t;
+            } else {
+                document.getElementById('pop-emoji').style.display = 'block';
+                document.getElementById('pop-emoji').innerText = item.s;
+                document.getElementById('pop-main').innerText = item.m;
+                document.getElementById('pop-title').innerText = item.t;
+            }
+
+            document.getElementById('popup-overlay').style.display = 'flex';
+            speak(item.t);
+        }
+
+        function closePopup() {
+            document.getElementById('popup-overlay').style.display = 'none';
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        function playPopupSound() {
+            if(activePopupText) {
+                speak(activePopupText);
+            }
         }
 
         // TRÒ CHƠI: Tạo câu hỏi theo đúng chủ đề đang chọn
@@ -534,7 +676,7 @@
             }
         }
 
-        // Kiểm tra đúng hay sai
+        // Kiểm tra đúng hay sai trong trò chơi
         function checkAnswer(selectedMain, element) {
             if(selectedMain === currentTarget.m) {
                 speak("Đúng rồi! Bé giỏi quá!");
